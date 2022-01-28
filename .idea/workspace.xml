@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c1f54ec-672d-4b9d-bdbd-ac4b761baa9a" name="Changes" comment="зз">
-      <change afterPath="$PROJECT_DIR$/графики.py" afterDir="false" />
+    <list default="true" id="7c1f54ec-672d-4b9d-bdbd-ac4b761baa9a" name="Changes" comment="2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/first.py" beforeDir="false" afterPath="$PROJECT_DIR$/first.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/work.txt" beforeDir="false" afterPath="$PROJECT_DIR$/work.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/графики.py" beforeDir="false" afterPath="$PROJECT_DIR$/графики.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.first">
+  <component name="RunManager" selected="Python.графики">
     <configuration name="графики" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="moskowgrigoriev" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,8 +81,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.first" />
         <item itemvalue="Python.графики" />
+        <item itemvalue="Python.first" />
       </list>
     </recent_temporary>
   </component>
@@ -102,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642936567184</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2">
+      <created>1643039687867</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1643039687867</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,6 +126,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="зз" />
-    <option name="LAST_COMMIT_MESSAGE" value="зз" />
+    <MESSAGE value="2" />
+    <option name="LAST_COMMIT_MESSAGE" value="2" />
   </component>
 </project>

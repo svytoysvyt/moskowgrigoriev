@@ -14,11 +14,10 @@ HEIGHT = 1000
 FPS = 60
 RADB = 0
 RADL = 1000
-#pygame.mixer.music.load('run.mp3')
-#pygame.mixer.music.play()
 DEAD = 0
 FOOD = 0
 IT = 1
+CLIVES = 0
 LIVE = 0
 LIVES = 50
 CDEAD = 0
@@ -43,6 +42,9 @@ def load_image(name):
 
 
 class Board:
+    """
+
+    """
     def __init__(self, width, height):
         self.width = width
         self.height = height
@@ -143,6 +145,7 @@ pperpoe
         global CDEAD
         global LIVES
         global CLIVE
+        global CLIVES
         if types == 0:
             self.rect = self.rect.move(self.vx, self.vy)
             if pygame.sprite.spritecollideany(self, horizontal_borders):
@@ -154,11 +157,12 @@ pperpoe
                 if 1.5 * er.rect.width <= self.rect.width <= 2.5 * er.rect.width:
                     self.eat += er.rect.width // 4
                     example.write(f'Бактерия с координатами:[{self.rect[0] + self.radius - 150}, {self.rect[1] + self.radius - 50}]\n'
-                                  f'с радиусом {self.rect[2] // 2}, со скоростью {200 // self.rect[2]} и с едой {self.eat}\n'
+                                  f'с радиусом {self.radius}, со скоростью {200 // self.rect[2]} и с едой {self.eat}\n'
                                   f'уничтожила бактерию с радиусом {er.rect[2] // 2}, со скоростью {200 // er.rect[2]}\n'
                                   f'в время {pygame.time.get_ticks()} миллисекунд\n \n')
-                    work.write(f'1, {self.rect[0]}, {self.rect[1]}, {200 // self.rect[2]},'
-                               f' {er.rect[2] // 2}, {self.eat}, {pygame.time.get_ticks()}, \n')
+                    work.write(f'1, {self.rect[0] + self.radius - 150}, {self.rect[1] + self.radius - 50},'
+                               f' {self.radius}, {200 // self.rect[2]}, {er.rect[2] // 2}, {self.eat},'
+                               f' {pygame.time.get_ticks()}, \n')
                     DEAD += 1
                     LIVES -= 1
                     CDEAD += er.rect[2] // 2
@@ -167,10 +171,11 @@ pperpoe
             if self.eat < self.radius // 2:
                 example.write(
                     f'Бактерия с координатами:[{self.rect[0] + self.radius - 150}, {self.rect[1] + self.radius - 50}]\n'
-                    f'с радиусом {self.rect[2] // 2}, со скоростью {self.rect[2] // 4} и с едой {self.eat}\n'
+                    f'с радиусом {self.radius}, со скоростью {self.rect[2] // 4} и с едой {self.eat}\n'
                     f'умерла от голода во время {pygame.time.get_ticks()} миллисекунд\n \n')
                 work.write(
-                    f'2,  {self.rect[2] // 2}, {200 // self.rect[2]}, {self.eat}, {pygame.time.get_ticks()}, \n')
+                    f'2,  {self.rect[0] + self.radius - 150}, {self.rect[1] + self.radius - 50}, '
+                    f'{self.radius}, {self.eat}, {pygame.time.get_ticks()}, \n')
                 DEAD += 1
                 LIVES -= 1
                 CDEAD += self.rect[2] // 2
@@ -184,7 +189,7 @@ pperpoe
                         a = random.randint(self.rect[2] // -6, self.rect[2] // 6)
 
                         for j in range(random.randint(1, self.eat / (self.radius // 2) // 1)):
-                            if self.rect[2] // 2 + a > 1:
+                            if self.rect[2] // 2 + a > 4:
                                 d = self.rect[2] // 2 + a
                                 pigs.add(Pig(1, d))
                                 work.write(f'4, {self.rect.x}, {self.rect.y}, {self.rect.width // 2},'
@@ -192,6 +197,7 @@ pperpoe
                                 example.write(f'бактерия с радиусом {self.rect.width // 2} создала бактерию с радиусом {d}'
                                               f' при мутации {d - self.rect.width // 2} \n\n')
                                 LIVES += 1
+                                CLIVES += self.rect[2] // 2 + a
                             a = 0
                             if random.randint(1, 3) == 1:
                                 a = random.randint(self.rect[2] // -6, self.rect[2] // 6)
@@ -200,11 +206,19 @@ pperpoe
 
 if __name__ == '__main__':
     u = 0
-    pygame.display.set_caption('Чапаев')
+    pygame.display.set_caption('симулятор мутации')
     Border(150, 53, WIDTH - 150, 53)
     Border(150, HEIGHT - 53, WIDTH - 150, HEIGHT - 53)
     Border(153, 50, 153, HEIGHT - 50)
     Border(WIDTH - 153, 50, WIDTH - 153, HEIGHT - 50)
+    Border(150, 50, WIDTH - 150, 50)
+    Border(150, HEIGHT - 50, WIDTH - 150, HEIGHT - 50)
+    Border(150, 50, 150, HEIGHT - 50)
+    Border(WIDTH - 150, 50, WIDTH - 150, HEIGHT - 50)
+    Border(150, 47, WIDTH - 150, 47)
+    Border(150, HEIGHT - 47, WIDTH - 150, HEIGHT - 47)
+    Border(147, 50, 147, HEIGHT - 50)
+    Border(WIDTH - 147, 50, WIDTH - 147, HEIGHT - 50)
     for i in range(50):
         pigs.add(Pig(0))
     FOOD = random.randint(250, 500)
@@ -218,14 +232,14 @@ if __name__ == '__main__':
     running = True
     f2 = pygame.font.SysFont('serif', 48)
     f1 = pygame.font.SysFont('serif', 80)
-    text2 = f2.render(f'ЦИКЛ № {IT} (ИЗ 120)', True, (153, 102, 204))
+    text2 = f2.render(f'ЦИКЛ № {IT} (ИЗ 1080)', True, (153, 102, 204))
     text1 = f2.render(f'ЖИВО: {LIVES}', True, (206, 210, 58))
     text3 = f1.render(f'{(20000 - (pygame.time.get_ticks()) % 20000) // 1000 + 1}', True, (0, 125, 255))
     screen.blit(back, back_rect)
     board.render(screen)
     o = pygame.time.get_ticks()
-    pygame.time.set_timer(pygame.USEREVENT, 20000, 120)
-    pygame.time.set_timer(pygame.QUIT, 2400100, 1)
+    pygame.time.set_timer(pygame.USEREVENT, 20000, 1080)
+    pygame.time.set_timer(pygame.QUIT, 21601000, 1)
     while running:
         screen.blit(back, back_rect)
         screen.blit(text2, (150, 5))
@@ -244,16 +258,26 @@ if __name__ == '__main__':
                 pigs.update(1)
                 print(DEAD, CDEAD, LIVE, CLIVE)
                 if DEAD == 0:
-                    DEAD = -1
-                elif LIVE == 0:
-                    LIVE = -1
-                example.write(f'погибло {DEAD},средний размер погибшего {CDEAD / DEAD},'
-                              f'выжило {LIVE},средний размер выжившего {CLIVE / LIVE}\n'
-                              f' количество новых {LIVES - DEAD - LIVE}'
+                    DEADU = 0
+                else:
+                    DEADU = CDEAD / DEAD
+                if LIVE == 0:
+                    LIVEU = 0
+                else:
+                    LIVEU = CLIVE / LIVE
+                if LIVES == LIVE:
+                    LIVESU = 0
+                else:
+                    LIVESU = CLIVES / (LIVES - LIVE)
+                work.write(f'3, {IT}, {DEAD}, {DEADU}, {LIVE}, {LIVEU},'
+                           f' {LIVES  - LIVE}, {DEAD + LIVE}, {(CDEAD + CLIVE) / (DEAD + LIVE)}, {LIVES},'
+                           f' {LIVESU}, {FOOD}, \n')
+                example.write(f'погибло {DEAD},средний размер погибшего {DEADU},'
+                              f'выжило {LIVE},средний размер выжившего {LIVEU}\n'
+                              f' количество новых {LIVES  - LIVE} , их размер {LIVESU} '
                               f'и начальном размере {(CDEAD + CLIVE)/ (DEAD + LIVE)} '
                               f'с количеством добавленной пищи {FOOD}\nЗАКОНЧЕН ЦИКЛ № {IT}\n\n\n')
-                work.write(f'3, {IT}, {DEAD}, {CDEAD / DEAD}, {LIVE}, {CLIVE / LIVE},'
-                           f' {LIVES - DEAD - LIVE}, {DEAD + LIVE}, {(CDEAD + CLIVE)/ (DEAD + LIVE)}, {LIVES}, {FOOD}, \n')
+
 #                FOOD = random.randint(250 * 0.35 // 1 + DEAD // 2, 500 * 0.7 // 1 + DEAD)):
                 FOOD = random.randint(200, 400)
                 for i in range(FOOD):
@@ -262,8 +286,9 @@ if __name__ == '__main__':
                 CDEAD = 0
                 LIVE = 0
                 CLIVE = 0
+                CLIVES = 0
                 IT += 1
-                text2 = f2.render(f'ЦИКЛ № {IT}(ИЗ 120)', True, (153, 102, 204))
+                text2 = f2.render(f'ЦИКЛ № {IT}(ИЗ 1080)', True, (153, 102, 204))
         pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()
